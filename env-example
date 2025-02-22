@@ -1,0 +1,51 @@
+# Django Secret Key
+DJANGO_SECRET_KEY="your-django-secret-key"
+
+# Debug Setting
+DJANGO_DEBUG=True
+
+# Allowed Hosts (comma-separated)
+DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1
+
+# Django setting module
+DJANGO_SETTINGS_MODULE="src.development"
+
+# PostgreSQL Database Configuration
+POSTGRES_DB=your_database_name
+POSTGRES_USER=your_database_user
+POSTGRES_PASSWORD=your_database_password
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+
+# Swagger Servers Configuration
+SWAGGER_LOCAL_URL=http://127.0.0.1:8000
+SWAGGER_DEVELOPMENT_URL=https://your-development-url
+SWAGGER_DEPLOYMENT_URL=https://your-deployment-server.com
+
+# CORS Configuration (comma-separated origins)
+CORS_ORIGIN_ALLOW_ALL=False
+CORS_ALLOWED_ORIGINS=http://localhost,https://127.0.0.1,http://localhost:8000,http://127.0.0.1:8000,http://127.0.0.1:5000
+
+CORS_ALLOW_HEADERS=authorization,content-type,X-CSRFToken
+CORS_ALLOW_METHODS=DELETE,GET,OPTIONS,PATCH,POST,PUT
+CORS_ALLOW_CREDENTIALS=True
+
+# RabbitMQ
+RABBITMQ_DEFAULT_USER=guest
+RABBITMQ_DEFAULT_PASS=guest
+RABBITMQ_MANAGEMENT_UI_PORT=15672
+RABBITMQ_MESSAGING_PORT=5672
+
+# Email
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+EMAIL_HOST_USER="your-email@gmail.com"
+EMAIL_HOST_PASSWORD="your-email-password"
+DEFAULT_FROM_EMAIL="Your App <your-email@gmail.com>"
+
+# Celery
+CELERY_BROKER_URL=amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@rabbitmq//
+CELERY_ACCEPT_CONTENT=json
+CELERY_TASK_SERIALIZER=json
+CELERY_RESULT_BACKEND=rpc://
