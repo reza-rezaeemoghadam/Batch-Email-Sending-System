@@ -38,6 +38,7 @@ ALLOWED_HOSTS = convert_csv_to_list(config('DJANGO_ALLOWED_HOSTS', cast=str))
 
 INSTALLED_APPS = [
     "corsheaders",
+    "core",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_spectacular',
     "rest_framework_simplejwt",
+    "applications.mail",
 ]
 
 MIDDLEWARE = [
