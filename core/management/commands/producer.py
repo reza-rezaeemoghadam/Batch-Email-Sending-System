@@ -15,13 +15,13 @@ class Command(BaseCommand):
         message = options['message']
         iteration = options.get('iteration', None)
 
-        with RabbitMQConnectionManager() as rabbitmq:
+        with RabbitMQConnectionManager("rabbitmq") as rabbitmq:
             body = {"message": message}
 
-            rabbitmq.exchange_declare(exchange='ex.messages', exchange_type='direct')
+            rabbitmq.exchange_declare(exchange='q.message', exchange_type='direct', durable=True)
 
-            rabbitmq.queue_declare(queue='q.email_queue')
-            rabbitmq.bind_queue(routing_key="email_key")
+            rabbitmq.queue_declare(queue='q.message')
+            rabbitmq.bind_queue(routing_key="message_key")
 
             # Publish the message
             for i in range(iteration):

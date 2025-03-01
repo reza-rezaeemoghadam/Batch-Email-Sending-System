@@ -68,7 +68,21 @@ EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", cast=str)
 DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", cast=str)
 
 # Celery configuration
+from kombu import Queue, Exchange
+
 CELERY_BROKER_URL= config("CELERY_BROKER_URL", cast=str)
 CELERY_ACCEPT_CONTENT=convert_csv_to_list(config("CELERY_ACCEPT_CONTENT", cast=str))
 CELERY_TASK_SERIALIZER=config("CELERY_TASK_SERIALIZER", cast=str)
 CELERY_RESULT_BACKEND= config("CELERY_RESULT_BACKEND", cast=str)
+# Queue definitions
+CELERY_TASK_DEFAULT_QUEUE = 'q.email'
+CELERY_TASK_DEFAULT_ROUTING_KEY = 'q.email'
+CELERY_QUEUES = (
+    Queue('q.email', Exchange('ex.email', type='direct', durable=True), routing_key='email_key'),
+    Queue('q.message', Exchange('ex.messages', type='direct', durable=True), routing_key='message_key'),
+)
+# Define routing for tasks
+CELERY_TASK_ROUTES = {
+    'core.utils.send_email.send_single_email': {'queue': 'q.email', 'routing_key':'email_key'},
+    'core.utils.send_email.send_batch_email': {'queue': 'q.email', 'routing_key':'email_key'},
+}

@@ -26,14 +26,14 @@ class RabbitMQConnectionManager:
         if exc_type:
             print(f"An error occurred: {exc_val}")
 
-    def exchange_declare(self, exchange: str, exchange_type: str = "direct") -> None:
+    def exchange_declare(self, exchange: str, exchange_type: str = "direct", durable: bool = True) -> None:
         self.exchange = exchange
-        self.channel.exchange_declare(exchange=exchange, exchange_type=exchange_type)
+        self.channel.exchange_declare(exchange=exchange, exchange_type=exchange_type, durable=durable)
 
-    def queue_declare(self, queue: str) -> None:
+    def queue_declare(self, queue: str, durable: bool = True) -> None:
         """Declare a queue to be used for consuming messages"""
         self.queue = queue
-        self.channel.queue_declare(queue=queue)
+        self.channel.queue_declare(queue=queue, durable=durable)
 
     def bind_queue(self, routing_key:str) -> None:
         """Bind the queue to the exchange with the routing key"""

@@ -49,7 +49,7 @@ services:
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
     restart: on-failure
 
-  celery:
+  worker:
     container_name: celery
     build:
       context: ./
@@ -64,6 +64,40 @@ services:
     networks:
       - django-app-network
     restart: on-failure
+
+
+  worker_mail:
+    container_name: celery_email
+    build:
+      context: ./
+    env_file:
+      - .env
+    command: ["celery", "--app", "src", "worker", "--loglevel=info", "-Q", "q.email"]
+    depends_on:
+      - django-app
+      - rabbitmq
+    volumes:
+      - ./:/app/django-app
+    networks:
+      - django-app-network
+    restart: on-failure
+
+  worker_message:
+    container_name: celery_message
+    build:
+      context: ./
+    env_file:
+      - .env
+    command: ["celery", "--app", "src", "worker", "--loglevel=info", "-Q", "q.message"]
+    depends_on:
+      - django-app
+      - rabbitmq
+    volumes:
+      - ./:/app/django-app
+    networks:
+      - django-app-network
+    restart: on-failure
+
 
 volumes:
   django-app-postgres-data:
